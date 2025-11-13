@@ -1,12 +1,22 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import com.jcraft.jsch.Session;
+
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import com.jcraft.jsch.*;
+
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -19,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     ScrollView scrollView;
     Session session;
     OutputStream out;
+    Spinner mainSpinner;
+    LinearLayout dynamicContainer;
     boolean connected = false;
 
     @Override
@@ -34,6 +46,81 @@ public class MainActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
         outputView = findViewById(R.id.outputView);
         scrollView = findViewById(R.id.scrollView);
+
+        mainSpinner = findViewById(R.id.mainSpinner);
+        dynamicContainer = findViewById(R.id.dynamicContainer);
+
+        String[] options = {"None", "Package A", "Package B", "Package C"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mainSpinner.setAdapter(adapter);
+
+        mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = (String) parent.getItemAtPosition(position);
+
+                // Clear previous dynamic views
+                dynamicContainer.removeAllViews();
+
+                if (selected.equals("Package A")) {
+                    // Add 3 EditTexts dynamically
+                    for (int i = 1; i <= 3; i++) {
+                        EditText et = new EditText(MainActivity.this);
+                        et.setHint("Input " + i);
+                        et.setTextColor(Color.WHITE);
+                        et.setBackgroundColor(Color.parseColor("#222222"));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(0, 8, 0, 0);
+                        et.setLayoutParams(params);
+                        dynamicContainer.addView(et);
+                    }
+
+                    // Add secondary spinner
+                    Spinner secondarySpinner = new Spinner(MainActivity.this);
+
+// Set spinner options
+                    String[] secondaryOptions = {"Option 1", "Option 2", "Option 3"};
+                    ArrayAdapter<String> secondaryAdapter = new ArrayAdapter<>(MainActivity.this,
+                            android.R.layout.simple_spinner_item, secondaryOptions) {
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            TextView tv = (TextView) super.getView(position, convertView, parent);
+                            tv.setTextColor(Color.WHITE); // white text
+                            return tv;
+                        }
+
+                        @Override
+                        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                            TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                            tv.setTextColor(Color.WHITE); // white text in dropdown
+                            return tv;
+                        }
+                    };
+                    secondaryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    secondarySpinner.setAdapter(secondaryAdapter);
+
+// Grey background
+                    secondarySpinner.setBackgroundColor(Color.parseColor("#555555"));
+
+// Layout params
+                    LinearLayout.LayoutParams spinnerParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    spinnerParams.setMargins(0, 8, 0, 0);
+                    secondarySpinner.setLayoutParams(spinnerParams);
+
+// Add to container
+                    dynamicContainer.addView(secondarySpinner);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+            });
 
         connectBtn.setOnClickListener(v -> startSSH());
         sendBtn.setOnClickListener(v -> sendCommand());

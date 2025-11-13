@@ -58,9 +58,11 @@
     </ScrollView>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/dynamicContainer"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
 
         <EditText
             android:id="@+id/cmdInput"
@@ -71,10 +73,20 @@
             android:textColor="#FFFFFF"
             android:background="#222222" />
 
+        <Spinner
+            android:id="@+id/mainSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:background="#222222"
+            android:popupBackground="#333333"
+            android:padding="8dp"/>
+
         <Button
             android:id="@+id/sendBtn"
             android:text="Send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
-</LinearLayout>
+
