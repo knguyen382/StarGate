@@ -1,92 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="#000000"
+    android:paddingTop="35dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/hostInput"
-        android:hint="Host (e.g. 192.168.1.100)"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="textUri"
-        android:background="#222222"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
 
-    <EditText
-        android:id="@+id/userInput"
-        android:hint="Username"
+    <Spinner
+        android:id="@+id/mainSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#222222"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
-
-    <EditText
-        android:id="@+id/passInput"
-        android:hint="Password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:background="#222222"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#888888" />
-
-    <Button
-        android:id="@+id/connectBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Connect" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/outputView"
-            android:textColor="#00FF00"
-            android:textSize="14sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Idle.\n" />
-    </ScrollView>
+        android:layout_height="60dp" />
 
     <LinearLayout
-        android:id="@+id/dynamicContainer"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
-
-        <EditText
-            android:id="@+id/cmdInput"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="Command"
-            android:textColor="#FFFFFF"
-            android:background="#222222" />
-
-        <Spinner
-            android:id="@+id/mainSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:background="#222222"
-            android:popupBackground="#333333"
-            android:padding="8dp"/>
+        android:orientation="horizontal"
+        >
 
         <Button
             android:id="@+id/sendBtn"
-            android:text="Send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:background="#000000"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="launch" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/spaceBtn"
+            android:background="#000000"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/matcha_green"
+            android:text="Space"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 
+    <ScrollView
+        android:id="@+id/terminalScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/terminalOutput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(⭐Stargate✨ launched)\n"
+            android:textColor="#00FF00"
+            android:textSize="14sp" />
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/cmdInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter command" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/infoBtn"
+            android:background="#000000"
+            android:backgroundTint="@color/purple_500"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="INFO" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/clearBtn"
+            android:background="#000000"
+            android:backgroundTint="@color/purple_500"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="clear" />
+
+        <Button
+            android:id="@+id/CtrlC"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="#000000"
+            android:layout_height="wrap_content"
+            android:text="CTRL+C" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/disconnectBtn"
+            android:background="#000000"
+            android:backgroundTint="@color/purple_500"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="disconnect" />
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
