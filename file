@@ -1,0 +1,60 @@
+private void connectSSH(final String host, final String username, final String password) {
+
+    // Prevent double-connect
+    if (session != null && session.isConnected()) {
+        return;
+    }
+
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                JSch jsch = new JSch();
+                session = jsch.getSession(username, host, 22);
+                session.setPassword(password);
+
+                // Disable host key checking
+                java.util.Properties config = new java.util.Properties();
+                config.put("StrictHostKeyChecking", "no");
+                session.setConfig(config);
+
+                // ----- CONNECT SESSION -----
+                session.connect(5000);  // Not on UI thread
+
+                // ----- OPEN SHELL CHANNEL -----
+                channel = (ChannelShell) session.openChannel("shell");
+                channel.setPty(true);
+
+                inputStream = channel.getInputStream();
+                outputStream = channel.getOutputStream();
+
+                channel.connect(5000);
+
+                // ----- START READING OUTPUT -----
+                startReading();   // This stays in BACKGROUND thread
+
+                // ----- UPDATE UI -----
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        terminal.append("\n[Connected]\n");
+                        connectButton.setText("Disconnect");
+                        connectButton.setEnabled(true);
+                    }
+                });
+
+            } catch (final Exception e) {
+                e.printStackTrace();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        terminal.append("\nConnection failed: " + e.getMessage() + "\n");
+                        connectButton.setText("Connect");
+                        connectButton.setEnabled(true);
+                    }
+                });
+            }
+        }
+    }).start();
+}
