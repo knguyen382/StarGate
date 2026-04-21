@@ -1,3 +1,5 @@
+^(?!.*:::)(?!.*::.*::)([0-9a-fA-F]{0,4})(:([0-9a-fA-F]{0,4}))*$
+
 @Override
 public CharSequence filter(CharSequence charSequence, int i, int i1,
                            Spanned spanned, int i2, int i3) {
